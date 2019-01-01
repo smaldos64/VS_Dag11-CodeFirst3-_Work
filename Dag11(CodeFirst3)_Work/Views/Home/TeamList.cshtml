@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Team>
+
+@{
+    ViewBag.Title = "TeamList";
+}
+
+<h2>Team List</h2>
+
+<p>Her kommer der en liste af Teams !!!</p>
+
+<table id="TeamListTable">
+    <thead>
+        <tr>
+            <th>
+                Team ID
+            </th>
+
+            <th>
+                Team Name
+            </th>
+
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+
+    @{
+        foreach (Team item in Model)
+        {
+            <tr class="TeamClass" data-teamid="@item.TeamID">
+                <td>
+                    @item.TeamID
+                </td>
+
+                <td Class="TeamName" data-confirm="Ønsker du virkelig at slette holdet @item.TeamName og alle studerende koblet til  : @item.TeamName ?">
+                    @item.TeamName
+                </td>
+
+                <td>
+                    @*<input id="hdnDrink" type="hidden" value="@item.StudentID" />*@
+                    <span class="glyphicon glyphicon-pencil edit-order" style="cursor: pointer"></span>&nbsp;
+                    <span class="glyphicon glyphicon-comment divider" style="cursor: pointer"></span>&nbsp;
+                    <span class="glyphicon glyphicon-remove remove-order" style="cursor: pointer"></span>
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+@section scripts {
+    <script src="~/Scripts/JavaScript_Paging_Dynamic8.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(".TeamClass").AddPageComponentsDynamic(
+                {
+                    Number_Of_Paging_Elements_On_Side: 4,
+                    MaxNumberOfPagerPagesInPagerSlider: 4,
+                    PagerClassName: "TeamClass",
+                    PagerStyleTable: true,
+                    UsePagerElementOnSideSelector: true,
+                }
+            );
+
+            var $tableList = $('#TeamListTable');
+
+            $tableList.delegate('.divider', 'click', function () {
+                var TeamID = $(this).closest("tr").attr('data-teamid');
+                window.location = "/Admin/TeamDetails/" + TeamID
+            });
+
+            $tableList.delegate('.edit-order', 'click', function () {
+                var TeamID = $(this).closest("tr").attr('data-teamid');
+                window.location = "/Admin/EditTeam/" + TeamID
+            });
+
+            $tableList.delegate('.remove-order', 'click', function (e) {
+                if (!confirm($(this).closest('tr').find(".TeamName").attr('data-confirm'))) {
+                    //e.preventDefault();
+                    return;
+                }
+
+                var TeamID = $(this).closest("tr").attr('data-teamid');
+                window.location = "/Admin/DeleteTeam/" + TeamID
+            });
+
+        });
+    </script>
+}

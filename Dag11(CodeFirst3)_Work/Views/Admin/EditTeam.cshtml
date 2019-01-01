@@ -1,0 +1,24 @@
+﻿@model Team
+
+@{
+    ViewBag.Title = "EditTeam";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Edit Team</h2>
+
+<form method="post" action="/admin/EditTeam" enctype="multipart/form-data">
+    <div class="row">
+        <input id="txtTeamID" name="TeamID" type="hidden" value="@Model.TeamID" />
+        <input id="txtTeamID" name="TeamDDisabled" type="number" class="form-control"
+               disabled="disabled" value="@Model.TeamID" />
+        <input id="txtTeamName" name="TeamName" type="text" class="form-control"
+               required title="Husk at indtaste Team navn !!!" placeholder="Indtast Team navn"
+               value="@Model.TeamName" />
+        
+        <input id="btnSubmit" type="submit" value="Gem Team" />
+    </div>
+</form>
+
+<br />
+@Html.ActionLink("Tilbage til Admin forside", "Index", "Admin")

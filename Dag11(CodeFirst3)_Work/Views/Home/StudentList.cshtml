@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Student>
+
+@{
+    ViewBag.Title = "StudentList";
+}
+
+<h2>Student List</h2>
+
+<p>Her kommer der en liste af studenter !!!</p>
+
+<table id="StudentListTable">
+    <thead>
+        <tr>
+            <th>
+                Student ID
+            </th>
+
+            <th>
+                Student Name
+            </th>
+
+            <th>
+                Student Age
+            </th>
+
+            <th>
+                Student E-Mail
+            </th>
+
+            <th>
+                Student Team
+            </th>
+
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+
+    @{
+        foreach (Student item in Model)
+        {
+            <tr class="StudentClass" data-studentid="@item.StudentID">
+                <td>
+                    @item.StudentID
+                </td>
+
+                <td Class="StudentName" data-confirm="Ønsker du virkelig at slette eleven : @item.StudentName ?">
+                    @item.StudentName
+                </td>
+
+                <td>
+                    @item.StudentAge
+                </td>
+
+                <td>
+                    @item.StudentEMailAddress
+                </td>
+
+                <td>
+                    @item.Team.TeamName
+                </td>
+
+                <td>
+                    <input id="hdnDrink" type="hidden" value="@item.StudentID" />
+                    <span class="glyphicon glyphicon-pencil edit-order" style="cursor: pointer"></span>&nbsp;
+                    <span class="glyphicon glyphicon-comment divider" style="cursor: pointer"></span>&nbsp;
+                    <span class="glyphicon glyphicon-remove remove-order" style="cursor: pointer"></span>
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+@section scripts {
+    <script src="~/Scripts/JavaScript_Paging_Dynamic8.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(".StudentClass").AddPageComponentsDynamic(
+                {
+                    Number_Of_Paging_Elements_On_Side: 4,
+                    MaxNumberOfPagerPagesInPagerSlider: 4,
+                    PagerClassName: "StudentClass",
+                    PagerStyleTable: true,
+                    UsePagerElementOnSideSelector: true,
+                }
+            );
+
+            var $tableList = $('#StudentListTable');
+
+            $tableList.delegate('.divider', 'click', function () {
+                var StudentID = $(this).closest("tr").attr('data-studentid');
+                window.location = "/Admin/StudentDetails/" + StudentID
+            });
+
+            $tableList.delegate('.edit-order', 'click', function () {
+                var StudentID = $(this).closest("tr").attr('data-studentid');
+                window.location = "/Admin/EditStudent/" + StudentID
+            });
+
+            $tableList.delegate('.remove-order', 'click', function (e) {
+                if (!confirm($(this).closest('tr').find(".StudentName").attr('data-confirm'))) {
+                    //e.preventDefault();
+                    return;
+                }
+               
+                var StudentID = $(this).closest("tr").attr('data-studentid');
+                window.location = "/Admin/DeleteStudent/" + StudentID
+            });
+
+        });
+    </script>
+}

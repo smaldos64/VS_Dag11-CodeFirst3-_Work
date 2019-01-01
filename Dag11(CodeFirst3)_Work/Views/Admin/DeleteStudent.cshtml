@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Student>
+
+@{
+    ViewBag.Title = "DeleteStudent";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Delete Student</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                Student ID
+            </th>
+
+            <th>
+                Student Name
+            </th>
+
+            <th>
+                Student Age
+            </th>
+        </tr>
+    </thead>
+
+    @{
+        foreach (Student item in Model)
+        {
+            <tr class="StudentClass">
+                <td>
+                    @item.StudentID
+                </td>
+
+                <td>
+                    @item.StudentName
+                </td>
+
+                <td>
+                    @item.StudentAge
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+@section scripts {
+    <script src="~/Scripts/JavaScript_Paging_Dynamic8.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(".StudentClass").AddPageComponentsDynamic(
+                {
+                    Number_Of_Paging_Elements_On_Side: 4,
+                    MaxNumberOfPagerPagesInPagerSlider: 4,
+                    PagerClassName: "StudentClass",
+                    PagerStyleTable: true,
+                    UsePagerElementOnSideSelector: true,
+                }
+            );
+
+        });
+    </script>
+}
+
+
+
+

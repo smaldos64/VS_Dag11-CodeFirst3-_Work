@@ -1,0 +1,72 @@
+﻿@model StudentCourseCollection
+
+@{
+    ViewBag.Title = "EditStudentCourseCharacter";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<Course> CourseList = ViewBag.CourseList;
+    List<CharacterWork> CharacterWorkList = ViewBag.CharacterWorkList;
+    List<Team> TeamList = ViewBag.TeamList;
+}
+
+<h2>Edit Student Course Character</h2>
+
+<br />
+<br />
+
+<h2>Student Details</h2>
+
+Id : @Model.StudentID
+<br />
+Navn : @Model.Student.StudentName
+<br />
+Alder : @Model.Student.StudentAge
+<br />
+E-mail : @Model.Student.StudentEMailAddress
+<br />
+Hold : @Model.Student.Team.TeamName
+
+<br />
+<br />
+
+<form method="post" action="/admin/EditStudentCourseCharacter" enctype="multipart/form-data">
+    <div class="row">
+        <input id="txtStudentCourseCollectionID" type="hidden" name="StudentCourseCollectionID" value="@Model.StudentCourseCollectionID" />
+        <input id="txtStudentID" type="hidden" name="StudentID" value="@Model.StudentID" />
+        
+        <p>Fag</p>
+        <select name="CourseID">
+            @foreach (Course Item in CourseList)
+            {
+                <option value="@Item.CourseID" @Html.Raw(Model.CourseID == Item.CourseID ? "selected=\"selected\"" : "")>@Item.CourseName</option>
+            }
+        </select>
+
+        <p>Karakter</p>
+        <select name="CharacterWorkID">
+            @foreach (CharacterWork Item in CharacterWorkList)
+            {
+                <option value="@Item.CharacterWorkID" @Html.Raw(Model.CharacterWorkID == Item.CharacterWorkID ? "selected=\"selected\"" : "")>@Item.CharacterValue</option>
+            }
+        </select>
+
+        <p>Hold</p>
+        <select name="TeamID">
+            @foreach (Team Item in TeamList)
+            {
+                <option value="@Item.TeamID" @Html.Raw(Model.TeamID == Item.TeamID ? "selected=\"selected\"" : "")>@Item.TeamName</option>
+            }
+        </select>
+
+        <br />
+        <br />
+        Kommentar til eleven på det valgte fag :
+        <input id="txtCourseComment" name="CourseComment" type="text" placeholder="Indtast kommentar til fag for elev" value="@Model.CourseComment" />
+        <br />
+        <br />
+        <input id="btnSubmit" type="submit" value="Gem Fag og Karakter for @Model.Student.StudentName" />
+    </div>
+</form>
+
+<br />
+@Html.ActionLink("Tilbage til forside", "Index", "Home")
+

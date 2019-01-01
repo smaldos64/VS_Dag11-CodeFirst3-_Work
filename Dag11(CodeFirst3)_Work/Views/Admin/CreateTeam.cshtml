@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "CreateTeam";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Create Team</h2>
+
+<form method="post" action="/admin/CreateTeam" enctype="multipart/form-data">
+    <div class="row">
+        <input id="txtTeamName" name="TeamName" type="text" class="form-control" required title="Husk at indtaste Team navn !!!" placeholder="Indtast Team navn" />
+        
+        <input id="btnSubmit" type="submit" value="Gem Team" />
+    </div>
+</form>
+
+<br />
+@Html.ActionLink("Tilbage til Admin forside", "Index", "Admin")

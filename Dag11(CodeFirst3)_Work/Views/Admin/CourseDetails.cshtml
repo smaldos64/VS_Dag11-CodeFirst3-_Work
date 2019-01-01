@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Student>
+
+@{
+    ViewBag.Title = "CourseDetails";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    string CourseName = ViewBag.CourseName;
+    List<string> CharacterValueList = ViewBag.CharacterValueList;
+}
+
+<h2>Student List (@CourseName)</h2>
+
+<p>Her kommer der en liste af studenter koblet til kurset : @CourseName !!!</p>
+
+<table id="StudentCharacterListTable">
+    <thead>
+        <tr>
+            <th>
+                Student ID
+            </th>
+
+            <th>
+                Student Name
+            </th>
+
+            <th>
+                Student Age
+            </th>
+
+            <th>
+                Student E-Mail
+            </th>
+
+            <th>
+                Student Team
+            </th>
+
+            <th>
+                Sidste Karekter i Fag
+            </th>
+
+            @*<th>
+                Actions
+            </th>*@
+        </tr>
+    </thead>
+
+    @{
+        int CharacterValueCounter = 0;
+        foreach (Student item in Model)
+        {
+            <tr class="StudentClass" data-studentid="@item.StudentID">
+                <td>
+                    @item.StudentID
+                </td>
+
+                <td Class="StudentName" data-confirm="Ønsker du virkelig at slette eleven : @item.StudentName ?">
+                    @item.StudentName
+                </td>
+
+                <td>
+                    @item.StudentAge
+                </td>
+
+                <td>
+                    @item.StudentEMailAddress
+                </td>
+
+                <td>
+                    @item.Team.TeamName
+                </td>
+
+                <td>
+                    @CharacterValueList[CharacterValueCounter]
+                    @{CharacterValueCounter++; }
+                </td>
+
+                @*<td>
+                    <input id="hdnDrink" type="hidden" value="@item.StudentID" />
+                    <span class="glyphicon glyphicon-pencil edit-order" style="cursor: pointer"></span>&nbsp;
+                    <span class="glyphicon glyphicon-comment divider" style="cursor: pointer"></span>&nbsp;
+                    <span class="glyphicon glyphicon-remove remove-order" style="cursor: pointer"></span>
+                </td>*@
+            </tr>
+        }
+    }
+
+</table>
+
+@section scripts {
+    <script src="~/Scripts/JavaScript_Paging_Dynamic8.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(".StudentClass").AddPageComponentsDynamic(
+                {
+                    Number_Of_Paging_Elements_On_Side: 4,
+                    MaxNumberOfPagerPagesInPagerSlider: 4,
+                    PagerClassName: "StudentClass",
+                    PagerStyleTable: true,
+                    UsePagerElementOnSideSelector: true,
+                }
+            );
+
+            //var $tableList = $('#StudentCharacterListTable');
+
+            //$tableList.delegate('.divider', 'click', function () {
+            //    var StudentCourseCollectionID = $(this).closest("tr").attr('data-studentcoursecollectiontid');
+            //    window.location = "/Home/StudentCourseDetails/" + StudentCourseCollectionID
+            //});
+
+            //$tableList.delegate('.edit-order', 'click', function () {
+            //    var StudentCourseCollectionID = $(this).closest("tr").attr('data-studentcoursecollectiontid');
+            //    window.location = "/Admin/EditStudentCourseCharacter/" + StudentCourseCollectionID
+            //});
+
+            //$tableList.delegate('.remove-order', 'click', function (e) {
+            //    if (!confirm($(this).closest('tr').find(".CourseComment").attr('data-confirm'))) {
+            //        //e.preventDefault();
+            //        return;
+            //    }
+
+            //    var StudentCourseCollectionID = $(this).closest("tr").attr('data-studentcoursecollectiontid');
+            //    window.location = "/Admin/DeleteStudentCourseCharacter/" + StudentCourseCollectionID
+            //});
+
+        });
+    </script>
+}

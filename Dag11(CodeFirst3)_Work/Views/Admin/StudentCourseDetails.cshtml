@@ -1,0 +1,34 @@
+﻿@model StudentCourseCollection
+@{
+    ViewBag.Title = "StudentCourseDetails";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Student Course Details</h2>
+
+Student Navn : 
+@Model.Student.StudentName
+<br />
+
+Nuværende Student Hold :
+@Model.Student.Team.TeamName
+<br />
+
+Student Hold Karakter :
+@Model.Team.TeamName
+<br />
+
+Fag :
+@Model.Course.CourseName
+<br />
+
+Karakter :
+@Model.CharacterWork.CharacterValue
+
+<br />
+<br />
+@Html.ActionLink("Tilbage til forside", "Index", "Home")
+<br />
+<br />
+@Html.ActionLink("Tilbage til Student Liste", "StudentList", "Home")
+

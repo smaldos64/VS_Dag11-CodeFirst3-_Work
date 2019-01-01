@@ -1,0 +1,41 @@
+﻿@model Student
+
+@{
+    ViewBag.Title = "EditStudent";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<Team> TeamList = ViewBag.TeamList;
+}
+
+<h2>Edit Student</h2>
+
+<form method="post" action="/admin/EditStudent" enctype="multipart/form-data">
+    <div class="row">
+        <p>Teams</p>
+        <select name="TeamID">
+            @foreach (Team Item in TeamList)
+            {
+                <option value="@Item.TeamID" @Html.Raw(Model.TeamID == Item.TeamID ? "selected=\"selected\"" : "")>@Item.TeamName</option>
+            }
+        </select>
+        <br />
+        <br />
+
+        <input id="txtStudentID" name="StudentID" type="hidden" value="@Model.StudentID" />
+        <input id="txtStudentID" name="StudentIDDisabled" type="number" class="form-control" 
+               disabled="disabled" value="@Model.StudentID" />
+        <input id="txtStudentName" name="StudentName" type="text" class="form-control" 
+               required title="Husk at indtaste navn !!!" placeholder="Indtast Student navn" 
+               value="@Model.StudentName" />
+        <input id="txtStudentAge" name="StudentAge" type="number" min="15" max="65" class="form-control" 
+               required placeholder="Indtast Student Alder"
+               value="@Model.StudentAge" />
+        <input id="txtStudentEmail" name="StudentEMailAddress" type="email" class="form-control"
+               required placeholder="Indtast Student E-mail"
+               value="@Model.StudentEMailAddress" />
+
+        <input id="btnSubmit" type="submit" value="Gem Student" />
+    </div>
+</form>
+
+<br />
+@Html.ActionLink("Tilbage til forside", "Index", "Home")

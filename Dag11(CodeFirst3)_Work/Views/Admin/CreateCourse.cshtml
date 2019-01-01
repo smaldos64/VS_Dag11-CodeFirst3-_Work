@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "CreateCourse";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Create Course</h2>
+
+<form method="post" action="/admin/CreateCourse" enctype="multipart/form-data">
+    <div class="row">
+        <input id="txtCourseName" name="CourseName" type="text" class="form-control" required title="Husk at indtaste Course navn !!!" placeholder="Indtast Course navn" />
+
+        <input id="btnSubmit" type="submit" value="Gem Course" />
+    </div>
+</form>
+
+<br />
+@Html.ActionLink("Tilbage til Admin forside", "Index", "Admin")

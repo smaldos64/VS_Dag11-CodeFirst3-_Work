@@ -1,0 +1,133 @@
+﻿@model Student
+
+@{
+    ViewBag.Title = "StudentDetails";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@*@{ Html.RenderPartial("_StudentCourse", Model); }*@
+@*@{ Html.Partial("_StudentCourse", Model);}*@
+
+<h2>Student Details</h2>
+
+Id : @Model.StudentID
+<br />
+Navn : @Model.StudentName
+<br />
+Alder : @Model.StudentAge
+<br />
+E-mail : @Model.StudentEMailAddress
+<br />
+Hold : @Model.Team.TeamName
+
+<br />
+<br />
+<table id="StudentCharacterListTable">
+    <thead>
+        <tr>
+            <th>
+                Fag
+            </th>
+
+            <th>
+                Fag Kommentar
+            </th>
+
+            <th>
+                Fag Karakter
+            </th>
+
+            <th>
+                Hold
+            </th>
+
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+
+    @{
+        foreach (StudentCourseCollection item in Model.StudentCourseCollections)
+        {
+            <tr class="StudentCharacter" data-studentcoursecollectiontid="@item.StudentCourseCollectionID">
+                <td>
+                    @item.Course.CourseName
+                </td>
+
+                <td class="CourseComment" 
+                    data-confirm="Ønsker du virkelig at slette karakteren @item.CharacterWork.CharacterValue for : @item.Student.StudentName i faget @item.Course.CourseName på holdet @item.Student.Team.TeamName ?">
+                    @item.CourseComment
+                </td>
+
+                <td>
+                    @item.CharacterWork.CharacterValue
+                </td>
+
+                <td>
+                    @item.Team.TeamName
+                </td>
+
+                <td>
+                    <span class="glyphicon glyphicon-pencil edit-order" style="cursor: pointer"></span>&nbsp;
+                    @*<span class="glyphicon glyphicon-comment divider" style="cursor: pointer"></span>&nbsp;*@
+                    <span class="glyphicon glyphicon-remove remove-order" style="cursor: pointer"></span>
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+
+<br />
+<br />
+@Html.ActionLink("Tildel elev karakter i Fag", "ApplyCharacter", "Admin", new { Id = Model.StudentID }, new { @class = "navbar-brand" })
+<br />
+<br />
+@Html.ActionLink("Tilbage til forside", "Index", "Home")
+<br />
+<br />
+@Html.ActionLink("Tilbage til Student Liste", "StudentList", "Home")
+
+
+@section scripts {
+    <script src="~/Scripts/JavaScript_Paging_Dynamic8.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(".StudentCharacter").AddPageComponentsDynamic(
+                {
+                    Number_Of_Paging_Elements_On_Side: 4,
+                    MaxNumberOfPagerPagesInPagerSlider: 4,
+                    PagerClassName: "StudentCharacter",
+                    PagerStyleTable: true,
+                    UsePagerElementOnSideSelector: true,
+                }
+            );
+
+            var $tableList = $('#StudentCharacterListTable');
+
+            $tableList.delegate('.divider', 'click', function () {
+                var StudentCourseCollectionID = $(this).closest("tr").attr('data-studentcoursecollectiontid');
+                window.location = "/Admin/StudentCourseDetails/" + StudentCourseCollectionID
+            });
+
+            $tableList.delegate('.edit-order', 'click', function () {
+                var StudentCourseCollectionID = $(this).closest("tr").attr('data-studentcoursecollectiontid');
+                window.location = "/Admin/EditStudentCourseCharacter/" + StudentCourseCollectionID
+            });
+
+            $tableList.delegate('.remove-order', 'click', function (e) {
+                if (!confirm($(this).closest('tr').find(".CourseComment").attr('data-confirm'))) {
+                    //e.preventDefault();
+                    return;
+                }
+
+                var StudentCourseCollectionID = $(this).closest("tr").attr('data-studentcoursecollectiontid');
+                window.location = "/Admin/DeleteStudentCourseCharacter/" + StudentCourseCollectionID
+            });
+        });
+    </script>
+}

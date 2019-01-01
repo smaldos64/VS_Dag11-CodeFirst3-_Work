@@ -1,0 +1,94 @@
+﻿@model Team
+
+@{
+    ViewBag.Title = "TeamDetails";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<Student> Student_ObjectList = ViewBag.StudentList;
+}
+
+<h2>Team Details</h2>
+
+Id : @Model.TeamID
+<br />
+Navn : @Model.TeamName
+<br />
+
+<br />
+<br />
+<h3>Liste over studerende tilknyttet @Model.TeamName holdet</h3>
+
+<table id="StudentListTable">
+    <thead>
+        <tr>
+            <th>
+                Student ID
+            </th>
+
+            <th>
+                Student Name
+            </th>
+
+            <th>
+                Student Age
+            </th>
+
+            <th>
+                Student E-Mail
+            </th>
+
+            <th>
+                Student Team
+            </th>
+
+        </tr>
+    </thead>
+
+    @{
+        foreach (Student item in Student_ObjectList)
+        {
+            <tr class="StudentClass" data-studentid="@item.StudentID">
+                <td>
+                    @item.StudentID
+                </td>
+
+                <td Class="StudentName" data-confirm="Ønsker du virkelig at slette eleven : @item.StudentName ?">
+                    @item.StudentName
+                </td>
+
+                <td>
+                    @item.StudentAge
+                </td>
+
+                <td>
+                    @item.StudentEMailAddress
+                </td>
+
+                <td>
+                    @item.Team.TeamName
+                </td>
+
+            </tr>
+        }
+    }
+
+</table>
+
+@section scripts {
+    <script src="~/Scripts/JavaScript_Paging_Dynamic8.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(".StudentClass").AddPageComponentsDynamic(
+                {
+                    Number_Of_Paging_Elements_On_Side: 4,
+                    MaxNumberOfPagerPagesInPagerSlider: 4,
+                    PagerClassName: "StudentClass",
+                    PagerStyleTable: true,
+                    UsePagerElementOnSideSelector: true,
+                }
+            );
+
+        });
+    </script>
+}

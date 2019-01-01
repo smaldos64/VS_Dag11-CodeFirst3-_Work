@@ -1,0 +1,64 @@
+﻿@model Student
+
+<h2>Student Details</h2>
+
+Id : @Model.StudentID
+<br />
+Navn : @Model.StudentName
+<br />
+Alder : @Model.StudentAge
+<br />
+E-mail : @Model.StudentEMailAddress
+<br />
+Hold : @Model.Team.TeamName
+
+<br />
+<br />
+<table id="StudentListTable">
+    <thead>
+        <tr>
+            <th>
+                Fag
+            </th>
+
+            <th>
+                Fag Kommentar
+            </th>
+
+            <th>
+                Fag Karakter
+            </th>
+
+            <th>
+                Hold
+            </th>
+        </tr>
+    </thead>
+
+    @{
+        foreach (StudentCourseCollection item in Model.StudentCourseCollections)
+        {
+            <tr class="StudentCharacter">
+                <td>
+                    @item.Course.CourseName
+                </td>
+
+                <td>
+                    @item.CourseComment
+                </td>
+
+                <td>
+                    @item.CharacterWork.CharacterValue
+                </td>
+
+                <td>
+                    @item.Team.TeamName
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+
+

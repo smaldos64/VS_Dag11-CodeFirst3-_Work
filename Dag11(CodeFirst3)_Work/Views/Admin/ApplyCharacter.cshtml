@@ -1,0 +1,147 @@
+﻿@model Student
+
+<script src="~/Scripts/JavaScript_Paging_Dynamic8.js"></script>
+
+@{
+    ViewBag.Title = "ApplyCharacter";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<Course> CourseList = ViewBag.CourseList;
+    List<CharacterWork> CharacterWorkList = ViewBag.CharacterWorkList;
+}
+
+<link href="~/Content/StyleSheet.css" rel="stylesheet" />
+
+<h2>Apply Character to @Model.StudentName on Team @Model.Team.TeamName</h2>
+
+@*@{ Html.RenderPartial("_StudentCourse", Model); }*@
+
+<h2>Student Details</h2>
+
+Id : @Model.StudentID
+<br />
+Navn : @Model.StudentName
+<br />
+Alder : @Model.StudentAge
+<br />
+E-mail : @Model.StudentEMailAddress
+<br />
+Hold : @Model.Team.TeamName
+
+<br />
+<br />
+<table id="StudentListTable">
+    <thead>
+        <tr>
+            <th>
+                Fag
+            </th>
+
+            <th>
+                Fag Kommentar
+            </th>
+
+            <th>
+                Fag Karakter
+            </th>
+
+            <th>
+                Hold
+            </th>
+        </tr>
+    </thead>
+
+    @{
+        foreach (StudentCourseCollection item in Model.StudentCourseCollections)
+        {
+            <tr class="StudentCharacter">
+                <td>
+                    @item.Course.CourseName
+                </td>
+
+                <td>
+                    @item.CourseComment
+                </td>
+
+                <td>
+                    @item.CharacterWork.CharacterValue
+                </td>
+
+                <td>
+                    @item.Team.TeamName
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+
+<br />
+<br />
+
+<form method="post" action="/admin/ApplyCharacter" enctype="multipart/form-data">
+    <div class="row">
+        <input id="txtStudentID" type="hidden" name="StudentID" value="@Model.StudentID" />
+        <input id="txtTeamID" type="hidden" name="TeamID" value="@Model.TeamID" />
+
+        <p>Fag</p>
+        <select name="CourseID">
+            @foreach (Course Item in CourseList)
+            {
+                <option value="@Item.CourseID">@Item.CourseName</option>
+            }
+        </select>
+
+        <p>Karakter</p>
+        <select name="CharacterWorkID">
+            @foreach (CharacterWork Item in CharacterWorkList)
+            {
+                <option value="@Item.CharacterWorkID">@Item.CharacterValue</option>
+            }
+        </select>
+
+        <br />
+        <br />
+        Kommentar til eleven på det valgte fag :
+        <input id="txtCourseComment" name="CourseComment" type="text" placeholder="Indtast kommentar til fag for elev" />
+        <br />
+        <br />
+        <input id="btnSubmit" type="submit" value="Gem Fag og Karakter for @Model.StudentName" />
+    </div>
+</form>
+
+@section scripts {
+    <script src="~/Scripts/JavaScript_Paging_Dynamic8.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(".StudentCharacter").AddPageComponentsDynamic(
+                {
+                    Number_Of_Paging_Elements_On_Side: 4,
+                    MaxNumberOfPagerPagesInPagerSlider: 4,
+                    PagerClassName: "StudentCharacter",
+                    PagerStyleTable: true,
+                    UsePagerElementOnSideSelector: true,
+                }
+            );
+
+            //AddPageComponentsDynamic(
+            //    $(".StudentCharacter"),
+            //    {
+            //        Number_Of_Paging_Elements_On_Side: 4,
+            //        MaxNumberOfPagerPagesInPagerSlider: 4,
+            //        PagerClassName: "StudentCharacter",
+            //        PagerStyleTable: true,
+            //        UsePagerElementOnSideSelector: true,
+            //    }
+            //)
+        });
+    </script>
+}
+
+
+
+
+
+

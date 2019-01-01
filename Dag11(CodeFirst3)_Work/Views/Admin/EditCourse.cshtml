@@ -1,0 +1,24 @@
+﻿@model Course
+
+@{
+    ViewBag.Title = "EditCourse";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Edit Course</h2>
+
+<form method="post" action="/admin/EditCourse" enctype="multipart/form-data">
+    <div class="row">
+        <input id="txtCourseID" name="CourseID" type="hidden" value="@Model.CourseID" />
+        <input id="txtCourseID" name="CourseDisabled" type="number" class="form-control"
+               disabled="disabled" value="@Model.CourseID" />
+        <input id="txtCourseName" name="CourseName" type="text" class="form-control"
+               required title="Husk at indtaste Course navn !!!" placeholder="Indtast Course navn"
+               value="@Model.CourseName" />
+
+        <input id="btnSubmit" type="submit" value="Gem Course" />
+    </div>
+</form>
+
+<br />
+@Html.ActionLink("Tilbage til Admin forside", "Index", "Admin")

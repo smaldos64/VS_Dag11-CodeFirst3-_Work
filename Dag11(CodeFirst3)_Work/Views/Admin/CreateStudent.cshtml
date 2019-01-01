@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Team>
+@{
+    ViewBag.Title = "CreateStudent";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Create Student</h2>
+
+<form method="post" action="/admin/CreateStudent" enctype="multipart/form-data">
+    <div class="row">
+        <p>Teams</p>
+        <select name="TeamID">
+            @foreach (Team Item in Model)
+            {
+                <option value="@Item.TeamID">@Item.TeamName</option>
+            }
+        </select>
+        <br />
+        <br />
+
+        <input id="txtStudentName" name="StudentName" type="text" class="form-control" required title="Husk at indtaste navn !!!" placeholder="Indtast Student navn"/>
+        <input id="txtStudentAge" name="StudentAge" type="number" min="15" max="65" class="form-control" required placeholder="Indtast Student Alder"/>
+        <input id="txtStudentEmail" name="StudentEMailAddress" type="email" class="form-control" required placeholder="Indtast Student E-mail"/>
+        <br />
+        
+        <input id="btnSubmit" type="submit" value="Gem Student" />
+    </div>
+</form>
+
+<br />
+@Html.ActionLink("Tilbage til forside", "Index", "Home")
